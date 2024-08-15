@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+
+// import './App.css';
+
+import { lazy, Suspense } from 'react';
+const EndPage = lazy(() => import('./pages/End.page'));
+const NotFoundPage = lazy(() => import('./pages/NotFound.page'));
+const QuestionPage = lazy(() => import('pages/Question.page'));
+const WelcomePage = lazy(() => import('./pages/Welcome.page'));
+const HistoryPage = lazy(() => import('./pages/History.page'));
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Routes>
+					<Route path='/' element={<WelcomePage />} />
+					<Route path='/questions' element={<QuestionPage />} />
+					<Route path='/end' element={<EndPage />} />
+					<Route path='/history' element={<HistoryPage />} />
+					<Route path='*' element={<NotFoundPage />} />
+				</Routes>
+			</Suspense>
+		</Router>
+	);
 }
 
 export default App;
